@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container">
+        <form method='POST' action='' class="my-2">{% csrf_token %}
+        {{form|crispy}}
+        <input class="btn bg-tang text-white" type="submit" value='Search'/>
+    </form>
+
+    <div class="display_table table-responsive">
+        <table class='table table-bordered'>
+          <thead class="table-dark">
+            <tr>
+{#              <th>COUNT</th>#}
+{#              <th>ID</th>#}
+              <th>CATEGORY</th>
+              <th>ITEM NAME</th>
+              <th>QUANTITY IN STORE</th>
+              <th class="bg-warning">ISSUE QUANTITY</th>
+              <th class="bg-warning">ISSUE BY<span class="text-warning">________</span></th>
+              <th class="bg-warning">ISSUE TO<span class="text-warning">________</span></th>
+              <th class="bg-success">RECEIVE QUANTITY</th>
+              <th class="bg-success">RECEIVE BY</th>
+              <th>LAST UPDATED</th>
+            </tr>
+          </thead>
+        {% for instance in queryset %}
+            <tr>
+
+{#              <td>{{forloop.counter}}</td>#}
+{#              <td>{{instance.id}}</td>#}
+              <td>{{instance.category}}</td>
+              <td class="no-dec">{{instance.item_name}}</td>
+              <td>{{instance.quantity}}</td>
+              <td class="no-dec">{{instance.issue_quantity}}</td>
+              <td class="no-">{{instance.issue_by}}</td>
+              <td class="no-dec">{{instance.issue_to}}</td>
+              <td class="no-dec">{{instance.receive_quantity}}</td>
+              <td class="no-dec">{{instance.receive_by}}</td>
+              <td>{{instance.last_updated}}</td>
+            </tr>
+        {% endfor %}
+      </table>
+    </div>
+</div>
+{% endblock %}

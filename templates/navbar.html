@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-tang px-3">
+  <div class="container-fluid">
+    <a class="navbar-brand text-warning" href="{% url 'list_item' %}">Inventory Dashboard</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'list_item' %}">List </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'add_items' %}">add item</a>
+        </li>
+        <li class="nav-item">
+           <a class="nav-link" href="/list_history">List History</a>
+        </li>
+        {% endif %}
+      </ul>
+    <ul class="navbar-nav">
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'logout' %}"><button class="btn btn-danger">{{ user }} | Logout</button></a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+    </ul>
+    </div>
+  </div>
+</nav>
+
+{##}
+{#      <nav class="bg-tang d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">#}
+{#        <div class="container">#}
+{#          <h1 class="h2">Inventory Dashboard</h1>#}
+{#        <div class="btn-toolbar mb-2 mb-md-0">#}
+{#          <div class="btn-group me-2">#}
+{#            <a href="{% url 'add_items' %}" type="button" class="btn btn-sm btn-outline-secondary" >Add-item</a>#}
+{#            <a href="{% url 'list_item' %}" type="button" class="btn btn-sm btn-outline-secondary">Lists-item</a>#}
+{#          </div>#}
+{#<button type="button" class="btn btn-sm btn-success dropdown-toggle"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" >#}
+{#<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>#}
+{#Filter</button>#}
+{#        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">#}
+{#            <div class="modal-dialog">#}
+{#                <div class="modal-content">#}
+{#                    <div class="modal-header bg-tang">#}
+{#                    <h5 class="modal-title text-warning" id="staticBackdropLabel">Search product</h5>#}
+{#                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+{#                    </div>#}
+{#                <div class="modal-body">#}
+{#                    <form method='POST' action=''>{% csrf_token %}#}
+{#                    {{form|crispy}}#}
+{#                    <br>#}
+{#                    <input class="btn btn-success" type="submit" value='Search'/>#}
+{#                    </form>#}
+{#                </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        </div>#}
+{##}
+{#      </div>#}
+{#      </nav>#}

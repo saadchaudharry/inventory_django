@@ -1,0 +1,150 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block body%}
+
+{% if messages %}
+               {% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show {{ message.tags }}" role="alert">
+  <strong>Inventory!</strong> {% if message.tags %} {% endif %}{{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+               {% endfor %}
+
+  {% endif %}
+
+  <!-- filter -->
+  <div class="container bg-white text-dark px-3 py-2">
+  <hr>
+<div class="bg-tang text-dark px-4 py-2">
+    <div class="row mx-1">
+
+      <div class="col-3">
+        <label for="test" class="text-white bold"><h5><strong> Ranges</strong></h5></label>
+        <select name="test" class="form-select mb-3" aria-label=".form-select-lg example">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+
+      <div class="col-3">
+        <label for="test" class="text-white bold"><h5><strong> From/on</strong></h5></label>
+        <select name="test" class="form-select mb-3" aria-label=".form-select-lg example">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+
+
+      <div class="col-3">
+        <label for="test" class="text-white bold"><h5><strong> To</strong></h5></label>
+        <select name="test" class="form-select mb-3" aria-label=".form-select-lg example">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+
+
+      <div class="col-3">
+        <div class="d-grid gap-2 mt-4 pt-1">
+          <button class="btn btn-success py-2 rounded-0" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+<strong>Filter</strong></button>
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-tang">
+                    <h5 class="modal-title text-warning" id="staticBackdropLabel">Search product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                <div class="modal-body">
+                    <form method='POST' action=''>{% csrf_token %}
+                    {{form|crispy}}
+                    <br>
+                    <input class="btn btn-success" type="submit" value='Search'/>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+</div>
+  <!-- table -->
+  <div class="container bg-geryy px-3 table-responsive-md ">
+    <table class="table bg-white table-bordered table-hover mt-4">
+      <thead class="mx-3 table-dark">
+      <tr>
+          <tr>
+            <th>COUNT</th>
+            <th>CATEGORY</th>
+            <th>ITEM NAME</th>
+            <th>QUANTITY IN STORE</th>
+            <th>REORDER LEVEL</th>
+            <th>TIMESTAMP</th>
+            <th>LAST UPADATED</th>
+            <th>Delete</th>
+          </tr>
+    </thead>
+    <tbody>
+       {% for instance in queryset %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{instance.category}}</td>
+            <td class="text-center"><a class="no-dec" href="{% url 'update_items' instance.id %}">{{instance.item_name}}</a></td>
+            <td class="text-center"><a class="no-dec" href="{% url 'stock_detail' instance.id %}">{% if instance.quantity <= instance.reorder_level %}
+                                                                              <div style="background-color: red;color: #FFFFFF">{{instance.quantity}}</div>
+                                                                              {% else %}{{instance.quantity}}
+                                                                              {% endif %}</a></td>
+            <td class="text-center"><a class="no-dec" href="{% url 'reorder_level' instance.id %}">{{instance.reorder_level}}</a></td>
+            <td>{{instance.timestamp}}</td>
+            <td>{{instance.last_updated}}</td>
+          <td><a href="{% url 'delete_items' instance.id %}"><img style="height: 16px;width: 16px" src="/media/trash.png"></a></td>
+          </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+
+  </div>
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+{#<div class="px-3">#}
+{#<button type="button" class="btn  btn-success dropdown-toggle"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" >#}
+{#<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>#}
+{#Filter</button>#}
+{#        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">#}
+{#            <div class="modal-dialog">#}
+{#                <div class="modal-content">#}
+{#                    <div class="modal-header bg-tang">#}
+{#                    <h5 class="modal-title text-warning" id="staticBackdropLabel">Search product</h5>#}
+{#                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+{#                    </div>#}
+{#                <div class="modal-body">#}
+{#                    <form method='POST' action=''>{% csrf_token %}#}
+{#                    {{form|crispy}}#}
+{#                    <br>#}
+{#                    <input class="btn btn-success" type="submit" value='Search'/>#}
+{#                    </form>#}
+{#                </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#</div>#}
